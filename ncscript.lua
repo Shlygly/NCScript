@@ -67,10 +67,14 @@ for i,v in pairs(ncMenu) do
 	hexchat.command('MENU DEL '..v)
 	hexchat.command('MENU ADD '..v)
 end
-for i,v in pairs(ncUserButtons) do
-	hexchat.command('DELBUTTON '..v)
-	hexchat.command('ADDBUTTON '..v)
-end
+
+-- User buttons
+hexchat.hook_print('Open Context', function (args)
+	for i,v in pairs(ncUserButtons) do
+		hexchat.command('DELBUTTON '..v)
+		hexchat.command('ADDBUTTON '..v)
+	end
+end)
 
 -- Autocomplete
 hexchat.hook_print('Key Press', function (args)
