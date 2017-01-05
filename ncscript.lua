@@ -13,6 +13,17 @@ NC_CHALL_CATEGORIES =
 	st="Stéganographie",
 	wa="Wargame",
 }
+ALZ_COMMANDS =
+{
+	"choosechall",
+	"help",
+	"kamulox",
+	"lastflag",
+	"nc",
+	"quote",
+	"roulette",
+	"wtf",
+}
 ALZ_QUOTE =
 {
 	luchini="Fabrice Luchini",
@@ -80,6 +91,24 @@ end)
 hexchat.hook_print('Key Press', function (args)
 	if (args[1] == '65289') then
 		local input = hexchat.get_info('inputbox')
-		-- TODO : find a way to edit the inputbox text
+		if (input.starts(input, '!')) then
+			local matchs = {}
+			for i,v in pairs(ALZ_COMMANDS) do
+				if (string.starts(v, string.sub(input,2))) then
+					table.insert(matchs, v)
+				end
+			end
+			if (table.getn(matchs) > 1) then
+				hexchat.print(table.concat(matchs, ", "))
+			elseif (table.getn(matchs) == 1) then
+				hexchat.command('SETTEXT !'..matchs[1]..' ')
+				hexchat.command('SETCURSOR '..(string.len(matchs[1]) + 2))
+			end
+		end
 	end
 end)
+
+-- Functions
+function string.starts(String,Start)
+   return string.sub(String,1,string.len(Start))==Start
+end
