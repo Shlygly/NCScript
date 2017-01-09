@@ -1,4 +1,4 @@
-hexchat.register('NCScript', '1', 'Newbie Contest Script')
+hexchat.register('NCScript', '1.0.0', 'Newbie Contest Script')
 
 NC_URL = 'https://www.newbiecontest.org/'
 NC_CHALL_CATEGORIES =
@@ -13,18 +13,23 @@ NC_CHALL_CATEGORIES =
 	st="Stéganographie",
 	wa="Wargame",
 }
-ALZ_COMMANDS =
+
+Alz_Commands =
 {
-	"choosechall",
-	"help",
-	"kamulox",
-	"lastflag",
-	"nc",
-	"quote",
-	"roulette",
-	"wtf",
+	{ "challinfo" },
+	{ "choose" },
+	{ "choosechall" },
+	{ "help" },
+	{ "kamulox" },
+	{ "lastflag" },
+	{ "liste_challs" },
+	{ "nc" },
+	{ "quote" },
+	{ "roulette" },
+	{ "say" },
+	{ "wtf" },
 }
-ALZ_QUOTE =
+Alz_Quote =
 {
 	luchini="Fabrice Luchini",
 	kaamelott="Kaamelott",
@@ -61,7 +66,7 @@ for i,v in pairs(NC_CHALL_CATEGORIES) do
 	table.insert(ncMenu, '"$NICK/Newbie Contest/Suggérer un challenge aléatoire de.../'..v..'" "SAY !choosechall '..i..' %s"')
 	table.insert(ncMenu, '"_Newbie Contest/Commandes IRC/Obtenir un challenge aléatoire de.../'..v..'" "SAY !choosechall '..i..'"')
 end
-for i,v in pairs(ALZ_QUOTE) do
+for i,v in pairs(Alz_Quote) do
 	table.insert(ncMenu, '"_Newbie Contest/Commandes IRC/Citations.../'..v..'" "SAY !quote '..i..'"')
 end
 
@@ -93,9 +98,9 @@ hexchat.hook_print('Key Press', function (args)
 		local input = hexchat.get_info('inputbox')
 		if (input.starts(input, '!')) then
 			local matchs = {}
-			for i,v in pairs(ALZ_COMMANDS) do
-				if (string.starts(v, string.sub(input,2))) then
-					table.insert(matchs, v)
+			for i,v in pairs(Alz_Commands) do
+				if (string.starts(v[1], string.sub(input,2))) then
+					table.insert(matchs, v[1])
 				end
 			end
 			if (table.getn(matchs) > 1) then
