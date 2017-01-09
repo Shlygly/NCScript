@@ -113,7 +113,23 @@ hexchat.hook_print('Key Press', function (args)
 	end
 end)
 
--- Functions
+-- == Functions ==
 function string.starts(String,Start)
    return string.sub(String,1,string.len(Start))==Start
+end
+
+function getCommonStart(Table)
+	local res = Table[1]
+	for i,v in pairs(Table) do
+		local nres = ""
+		local index = 1
+		while (index < string.len(res) + 1 and index < string.len(v) + 1) do
+			if (string.sub(res,1,index) == string.sub(v,1,index)) then
+				nres = string.sub(res,1,index)
+			end
+			index = index + 1
+		end
+		res = nres
+	end
+	return res
 end
