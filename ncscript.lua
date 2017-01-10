@@ -1,4 +1,4 @@
-hexchat.register('NCScript', '1.0.0', 'Newbie Contest Script')
+hexchat.register('NCScript', '1.0', 'Newbie Contest Script')
 
 NC_URL = 'https://www.newbiecontest.org/'
 NC_CHALL_CATEGORIES =
@@ -24,7 +24,15 @@ Alz_Commands =
 	{ "lastflag" },
 	{ "liste_challs" },
 	{ "nc" },
-	{ "quote" },
+	{ "quote",
+		{
+			luchini="Fabrice Luchini",
+			kaamelott="Kaamelott",
+			nc="Membres de Newbie Contest",
+			classe_americaine="La Classe Américaine",
+			coluche="Coluche",
+		}
+	},
 	{ "roulette" },
 	{ "say" },
 	{ "wtf" },
