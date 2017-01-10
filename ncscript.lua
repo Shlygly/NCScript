@@ -111,12 +111,12 @@ hexchat.hook_print('Key Press', function (args)
 					table.insert(matchs, v[1])
 				end
 			end
-			if (matchs ~= nil and table.getn(matchs) > 1) then
+			if (#matchs > 1) then
 				hexchat.print(table.concat(matchs, ", "))
 				local mtchstart = getCommonStart(matchs);
 				hexchat.command('SETTEXT !'..mtchstart)
 				hexchat.command('SETCURSOR '..(string.len(mtchstart) + 1))
-			elseif (matchs ~= nil and table.getn(matchs) == 1) then
+			elseif (#matchs == 1) then
 				hexchat.command('SETTEXT !'..matchs[1]..' ')
 				hexchat.command('SETCURSOR '..(string.len(matchs[1]) + 2))
 			end
