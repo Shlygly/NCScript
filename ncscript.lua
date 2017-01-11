@@ -1,5 +1,44 @@
 hexchat.register('NCScript', '1.0', 'Newbie Contest Script')
 
+-- == Functions ==
+function string.starts(String,Start)
+   return string.sub(String,1,string.len(Start))==Start
+end
+
+function getCommonStart(Table)
+	local res = Table[1]
+	for i,v in pairs(Table) do
+		local nres = ""
+		local index = 1
+		while (index < string.len(res) + 1 and index < string.len(v) + 1) do
+			if (string.sub(res,1,index) == string.sub(v,1,index)) then
+				nres = string.sub(res,1,index)
+			end
+			index = index + 1
+		end
+		res = nres
+	end
+	return res
+end
+
+function hasAlzValue(tab, val)
+    for index, value in ipairs (tab) do
+        if value[1] == val then
+            return true
+        end
+    end
+    return false
+end
+
+function getAlzCmdParams(tab, val)
+    for index, value in ipairs (tab) do
+        if value[1] == val then
+            return value[2]
+        end
+    end
+    return nil
+end
+
 NC_URL = 'https://www.newbiecontest.org/'
 NC_CHALL_CATEGORIES =
 {
@@ -38,14 +77,6 @@ Alz_Commands =
 	{ "say", {} },
 	{ "wtf", {} },
 }
-Alz_Quote =
-{
-	luchini="Fabrice Luchini",
-	kaamelott="Kaamelott",
-	nc="Membres de Newbie Contest",
-	classe_americaine="La Classe Américaine",
-	coluche="Coluche",
-}
 
 ncMenu =
 {
@@ -75,7 +106,7 @@ for i,v in pairs(NC_CHALL_CATEGORIES) do
 	table.insert(ncMenu, '"$NICK/Newbie Contest/Suggérer un challenge aléatoire de.../'..v..'" "SAY !choosechall '..i..' %s"')
 	table.insert(ncMenu, '"_Newbie Contest/Commandes IRC/Obtenir un challenge aléatoire de.../'..v..'" "SAY !choosechall '..i..'"')
 end
-for i,v in pairs(Alz_Quote) do
+for i,v in pairs(getAlzCmdParams(Alz_Commands,"quote")) do
 	table.insert(ncMenu, '"_Newbie Contest/Commandes IRC/Citations.../'..v..'" "SAY !quote '..i..'"')
 end
 
@@ -148,42 +179,3 @@ hexchat.hook_print('Key Press', function (args)
 		end
 	end
 end)
-
--- == Functions ==
-function string.starts(String,Start)
-   return string.sub(String,1,string.len(Start))==Start
-end
-
-function getCommonStart(Table)
-	local res = Table[1]
-	for i,v in pairs(Table) do
-		local nres = ""
-		local index = 1
-		while (index < string.len(res) + 1 and index < string.len(v) + 1) do
-			if (string.sub(res,1,index) == string.sub(v,1,index)) then
-				nres = string.sub(res,1,index)
-			end
-			index = index + 1
-		end
-		res = nres
-	end
-	return res
-end
-
-function hasAlzValue(tab, val)
-    for index, value in ipairs (tab) do
-        if value[1] == val then
-            return true
-        end
-    end
-    return false
-end
-
-function getAlzCmdParams(tab, val)
-    for index, value in ipairs (tab) do
-        if value[1] == val then
-            return value[2]
-        end
-    end
-    return nil
-end
