@@ -16,26 +16,27 @@ NC_CHALL_CATEGORIES =
 
 Alz_Commands =
 {
-	{ "challinfo" },
-	{ "choose" },
-	{ "choosechall" },
-	{ "help" },
-	{ "kamulox" },
-	{ "lastflag" },
-	{ "liste_challs" },
-	{ "nc" },
+	{ "challinfo", {} },
+	{ "choose", {} },
+	{ "choosechall", {} },
+	{ "help", {} },
+	{ "kamulox", {} },
+	{ "lastflag", {} },
+	{ "liste_challs", {} },
+	{ "nc", {} },
 	{ "quote",
 		{
 			luchini="Fabrice Luchini",
 			kaamelott="Kaamelott",
 			nc="Membres de Newbie Contest",
-			classe_americaine="La Classe Américaine",
+			classe_americaine="La classe américaine",
 			coluche="Coluche",
+			citedelapeur="La cité de la peur"
 		}
 	},
-	{ "roulette" },
-	{ "say" },
-	{ "wtf" },
+	{ "roulette", {} },
+	{ "say", {} },
+	{ "wtf", {} },
 }
 Alz_Quote =
 {
@@ -106,19 +107,38 @@ hexchat.hook_print('Key Press', function (args)
 		local input = hexchat.get_info('inputbox')
 		if (input.starts(input, '!')) then
 			local matchs = {}
-			for i,v in pairs(Alz_Commands) do
-				if (string.starts(v[1], string.sub(input,2))) then
-					table.insert(matchs, v[1])
+			local cmd, param = input:match("^!(%a+)%s*(%a*)%s*$")
+			if (hasAlzValue(Alz_Commands, cmd)) then
+				local params = getAlzCmdParams(Alz_Commands, cmd);
+				for i,v in pairs(params) do
+					if (string.starts(i, param)) then
+						table.insert(matchs, i)
+					end
 				end
-			end
-			if (#matchs > 1) then
-				hexchat.print(table.concat(matchs, ", "))
-				local mtchstart = getCommonStart(matchs);
-				hexchat.command('SETTEXT !'..mtchstart)
-				hexchat.command('SETCURSOR '..(string.len(mtchstart) + 1))
-			elseif (#matchs == 1) then
-				hexchat.command('SETTEXT !'..matchs[1]..' ')
-				hexchat.command('SETCURSOR '..(string.len(matchs[1]) + 2))
+				if (#matchs > 1) then
+					hexchat.print(table.concat(matchs, ", "))
+					local mtchstart = getCommonStart(matchs);
+					hexchat.command('SETTEXT !'..cmd..' '..mtchstart)
+					hexchat.command('SETCURSOR '..(string.len(cmd..' '..mtchstart) + 1))
+				elseif (#matchs == 1) then
+					hexchat.command('SETTEXT !'..cmd..' '..matchs[1]..' ')
+					hexchat.command('SETCURSOR '..(string.len(cmd..' '..matchs[1]) + 2))
+				end
+			else
+				for i,v in pairs(Alz_Commands) do
+					if (string.starts(v[1], string.sub(input,2))) then
+						table.insert(matchs, v[1])
+					end
+				end
+				if (#matchs > 1) then
+					hexchat.print(table.concat(matchs, ", "))
+					local mtchstart = getCommonStart(matchs);
+					hexchat.command('SETTEXT !'..mtchstart)
+					hexchat.command('SETCURSOR '..(string.len(mtchstart) + 1))
+				elseif (#matchs == 1) then
+					hexchat.command('SETTEXT !'..matchs[1]..' ')
+					hexchat.command('SETCURSOR '..(string.len(matchs[1]) + 2))
+				end
 			end
 		end
 	end
