@@ -109,20 +109,25 @@ hexchat.hook_print('Key Press', function (args)
 			local matchs = {}
 			local cmd, param = input:match("^!(%a+)%s*(%a*)%s*$")
 			if (hasAlzValue(Alz_Commands, cmd)) then
-				local params = getAlzCmdParams(Alz_Commands, cmd);
-				for i,v in pairs(params) do
-					if (string.starts(i, param)) then
-						table.insert(matchs, i)
+				if (param == "") then
+					hexchat.command('SETTEXT !'..cmd..' ')
+					hexchat.command('SETCURSOR '..(string.len(cmd) + 2))
+				else
+					local params = getAlzCmdParams(Alz_Commands, cmd);
+					for i,v in pairs(params) do
+						if (string.starts(i, param)) then
+							table.insert(matchs, i)
+						end
 					end
-				end
-				if (#matchs > 1) then
-					hexchat.print(table.concat(matchs, ", "))
-					local mtchstart = getCommonStart(matchs);
-					hexchat.command('SETTEXT !'..cmd..' '..mtchstart)
-					hexchat.command('SETCURSOR '..(string.len(cmd..' '..mtchstart) + 1))
-				elseif (#matchs == 1) then
-					hexchat.command('SETTEXT !'..cmd..' '..matchs[1]..' ')
-					hexchat.command('SETCURSOR '..(string.len(cmd..' '..matchs[1]) + 2))
+					if (#matchs > 1) then
+						hexchat.print(table.concat(matchs, ", "))
+						local mtchstart = getCommonStart(matchs);
+						hexchat.command('SETTEXT !'..cmd..' '..mtchstart)
+						hexchat.command('SETCURSOR '..(string.len(cmd..' '..mtchstart) + 1))
+					elseif (#matchs == 1) then
+						hexchat.command('SETTEXT !'..cmd..' '..matchs[1]..' ')
+						hexchat.command('SETCURSOR '..(string.len(cmd..' '..matchs[1]) + 2))
+					end
 				end
 			else
 				for i,v in pairs(Alz_Commands) do
