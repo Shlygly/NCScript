@@ -144,3 +144,21 @@ function getCommonStart(Table)
 	end
 	return res
 end
+
+function hasAlzValue(tab, val)
+    for index, value in ipairs (tab) do
+        if value[1] == val then
+            return true
+        end
+    end
+    return false
+end
+
+function getAlzCmdParams(tab, val)
+    for index, value in ipairs (tab) do
+        if value[1] == val then
+            return value[2]
+        end
+    end
+    return nil
+end
