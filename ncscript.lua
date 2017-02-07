@@ -55,7 +55,7 @@ NC_CHALL_CATEGORIES =
 
 Alz_Commands =
 {
-	{ "challinfo", {} },
+	{ "challinfos", {} },
 	{ "choose", {} },
 	{ "choosechall", {} },
 	{ "help", {} },
