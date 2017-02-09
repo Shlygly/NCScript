@@ -183,4 +183,5 @@ end)
 -- Commands
 hexchat.hook_command('DOOR', function (args)
 	hexchat.command('MSG '..hexchat.get_info('channel')..' -->[]')
+	return hexchat.EAT_ALL
 end)
